@@ -1,5 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import TodoItem from "./TodoItem";
+
+const List = styled.ul`
+    padding: 10px;
+    
+    color: ${props => props.color === 'white' ? 'white' : 'black'}
+`
 
 const styles = {
     ul: {
@@ -8,13 +15,17 @@ const styles = {
         padding: 0
     }
 }
-export default function TodoList (props) {
+function TodoList (props) {
     return (
-        <ul style={styles.ul}>
+        <List color="white" style={styles.ul}>
             {props.deals.map((deal, index) => {
-                return <TodoItem item = {deal} key={deal.id} index={index} />
+                return <TodoItem item = {deal} key={deal.id} index={index} inputChange={props.changeInput}/>
             })}
-        </ul>
+        </List>
     )
 }
-///////////////////
+
+TodoList.propTypes = {
+    deals: PropTypes.arrayOf(PropTypes.object).isRequired
+}
+export default TodoList;
