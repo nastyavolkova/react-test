@@ -2,21 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import Avatar from './Avatar.js';
 import TextField from "./TextField";
+import Rating from "./Rating";
 
 
-function AttributesList(props) {
-    function handleButton(id) {
-        props.changeRating(id)
-    }
+function AttributesList({comments, changeRating}) {
     return (
+
         <div>
-            {props.comments.map((item) => {
+
+            {comments.map((item) => {
                 return (
                     <div  key={item.id}>
-                        <Avatar index = {item.id}/>
+                        <Avatar index = {item.id} url = {item.url}/>
                         <TextField content = {item.name} title = 'Имя' />
+                        <TextField content = {item.mail} title = 'Почта' />
                         <TextField content = {item.text} title = 'Комментарий'/>
-                        <button type="button" onClick={() => {handleButton(item.id)}}>Плюс</button>
+                        <Rating comment = {item} changeRating = {changeRating}/>
+
                     </div>
                 )
             })}

@@ -4,39 +4,44 @@ import AttributesList from './Comment/AttributesList'
 import AddComment from "./CommentForm/AddComment";
 
 
-// eslint-disable-next-line require-jsdoc
+
 function App() {
     const [commentsInfo, setComments] = React.useState([
     ])
-    const [comment, setNewComment] = useState({
-        text: '',
+    const [newComments, setNewComment] = useState({
         name: '',
+        mail: '',
+        url: '',
+        text: '',
 
     });
 
-    function changeRating(id) {
-        const comment = commentsInfo.find((comment) => {
-            return comment.id === id
-        })
-        setComments(commentsInfo)
+    function changeRating(id, modification) {
+       let updateComments = commentsInfo.map((comment) => {
+            if (comment.id === id) {
+                return {
+                    ...comment,
+                   rating: comment.rating += modification,
+                }
+            }
+            return comment;
+        });
+       setComments(updateComments);
+
     }
 
     function addComment(value) {
         setComments(commentsInfo.concat([{
-            id: Date.now(),
+            id: new Date().toLocaleString(),
             rating: 0,
             ...value,
         }]))
     }
-    const commentsInfo1 = [
-        {id:1, name: 'Сыр', text: 'Не нравится, когда не дают лазить на стол!'},
-        {id:2, name: 'Денис', text: 'Молодец'},
-        {id:3, name: 'Ваня', text: 'Мммммм, that`s ten'},
-    ]
   return (
       <div className='wrapper'>
         <h1>Комментарии</h1>
-          <AddComment addComment = {addComment} setComment={setNewComment} comment={comment} />
+
+          <AddComment addComment = {addComment} setNewComment={setNewComment} newComment={newComments} />
           <AttributesList comments = {commentsInfo} changeRating = {changeRating}/>
 
       </div>

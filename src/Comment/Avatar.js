@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types";
-import logo from './frog.jpg';
+
 
 const styles = {
     img: {
@@ -9,11 +9,11 @@ const styles = {
 
     }
 }
-function Avatar({index}) {
+function Avatar({index, url}) {
     return (
         <div>
-            <h3>{index} Аватар</h3>
-            <img src={logo} style={styles.img}/>
+            <h3>{index}</h3>
+            <img src={url} alt='Аватар' style={styles.img}/>
         </div>
     );
 };
