@@ -1,8 +1,6 @@
 import React, {useState} from "react";
-import TodoList from "./Todo/TodoList";
 import AttributesList from './Comment/AttributesList'
 import AddComment from "./CommentForm/AddComment";
-
 
 
 function App() {
@@ -13,8 +11,8 @@ function App() {
         mail: '',
         url: '',
         text: '',
-
     });
+    const [timeAgo, setTime] = React.useState([])
 
     function changeRating(id, modification) {
        let updateComments = commentsInfo.map((comment) => {
@@ -27,23 +25,23 @@ function App() {
             return comment;
         });
        setComments(updateComments);
-
     }
 
     function addComment(value) {
         setComments(commentsInfo.concat([{
-            id: new Date().toLocaleString(),
+            id: Date.now(),
             rating: 0,
+            date: "just now",
             ...value,
         }]))
+
     }
+
   return (
       <div className='wrapper'>
         <h1>Комментарии</h1>
-
           <AddComment addComment = {addComment} setNewComment={setNewComment} newComment={newComments} />
           <AttributesList comments = {commentsInfo} changeRating = {changeRating}/>
-
       </div>
   );
 }
