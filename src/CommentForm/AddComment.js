@@ -1,12 +1,16 @@
 import React, {useState} from "react";
 import validator from "validator/es";
+import Button from "@mui/material/Button";
+import { styled } from '@mui/material/styles';
+//import styled from "styled-components";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
-const styles = {
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-    }
-}
+const CustomizeButton = styled(Button) `
+    background-color: #a7d0c3;
+`;
+
+
 function AddComment({addComment, setNewComment, newComment}) {
     const [emailError, setEmailError] = useState('');
     const validateEmail = (event) => {
@@ -35,6 +39,7 @@ function AddComment({addComment, setNewComment, newComment}) {
         noEmptyFields && emailError === '' ? addComment(newComment) : alert('Проверьте поля формы');
 
         setNewComment({name: '', text: '', url: '', mail: '',});
+        setEmailError('');
     }
 
     function handleChange(event) {
@@ -48,27 +53,46 @@ function AddComment({addComment, setNewComment, newComment}) {
         }
     }
     return (
-        <form onSubmit={submitHandler} style={styles.form}>
-            <label>
-                Имя
-                <input name="name" value={newComment.name} onChange={handleChange}/>
-            </label>
-            <label>
-                Почта
-                <input name="mail" value={newComment.mail} onChange={handleChange}/>
-                <span style={{fontWeight: 'bold', color: 'red',}}>{emailError}</span>
-            </label>
-            <label>
-                Ссылка на фото
-                <input name="url" value={newComment.url} onChange={handleChange}/>
-            </label>
-            <label>
-                Комментарий
-                <textarea name="text" value={newComment.text} onChange={handleChange}/>
-            </label>
 
-            <button type="submit">Добавить комментарий</button>
-        </form>
+            <Box component="form"
+                 sx={{
+                     '& > :not(style)': { m: 1, width: '25ch' },
+                 }}
+                 noValidate
+                 autoComplete="off"
+                 onSubmit={submitHandler}>
+
+
+                    <TextField error
+                               id="standard-error-helper-text"
+                               label="Имя"
+                               defaultValue="Hello World"
+                               helperText="Incorrect entry."
+                               variant="standard"
+                               name="name"
+                               value={newComment.name}
+                               onChange={handleChange}/>
+                    <TextField
+
+                <label>
+                    Почта
+                    <input name="mail" value={newComment.mail} onChange={handleChange}/>
+                    <span style={{fontWeight: 'bold', color: 'red',}}>{emailError}</span>
+                </label>
+                <label>
+                    Ссылка на фото
+                    <input name="url" value={newComment.url} onChange={handleChange}/>
+                </label>
+                <label>
+                    Комментарий
+                    <textarea name="text" value={newComment.text} onChange={handleChange}/>
+                </label>
+
+                <CustomizeButton variant="outlined" type="submit">Добавить комментарий</CustomizeButton>
+            </Box>
+
+
+
     );
 };
 

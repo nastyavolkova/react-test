@@ -2,6 +2,20 @@ import React, {useState} from "react";
 import AttributesList from './Comment/AttributesList'
 import AddComment from "./CommentForm/AddComment";
 
+import { styled } from '@mui/material/styles';
+import Container from '@mui/material/Container';
+import AppBar from '@mui/material/AppBar';
+import Typography from '@mui/material/Typography';
+import Toolbar from '@mui/material/Toolbar';
+import CommentIcon from '@mui/icons-material/Comment';
+import Button from "@mui/material/Button";
+
+
+
+const CustomizeAppBar = styled(AppBar) `
+    background-color: #5a8678;
+    margin-bottom: 20px;
+`;
 
 function App() {
     const [commentsInfo, setComments] = React.useState([
@@ -12,8 +26,6 @@ function App() {
         url: '',
         text: '',
     });
-    const [timeAgo, setTime] = React.useState([])
-
     function changeRating(id, modification) {
        let updateComments = commentsInfo.map((comment) => {
             if (comment.id === id) {
@@ -34,15 +46,21 @@ function App() {
             date: "just now",
             ...value,
         }]))
-
     }
 
   return (
-      <div className='wrapper'>
-        <h1>Комментарии</h1>
+      <Container fixed>
+          <CustomizeAppBar position="static">
+              <Toolbar>
+                  <CommentIcon fontSize="large"/>
+                  <Typography px={1} variant="h6" component="div" >
+                      Comments
+                  </Typography>
+              </Toolbar>
+          </CustomizeAppBar>
           <AddComment addComment = {addComment} setNewComment={setNewComment} newComment={newComments} />
           <AttributesList comments = {commentsInfo} changeRating = {changeRating}/>
-      </div>
+      </Container>
   );
 }
 
