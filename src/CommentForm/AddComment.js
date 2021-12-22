@@ -1,25 +1,41 @@
 import React, {useState} from "react";
 import validator from "validator/es";
-import Button from "@mui/material/Button";
 import { styled } from '@mui/material/styles';
-//import styled from "styled-components";
+import Button from "@mui/material/Button";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Alert from '@mui/material/Alert';
 
 const CustomizeButton = styled(Button) `
-    background-color: #a7d0c3;
+    background-color: #fff;
+    color: #5a8678;
+    border-color: #5a8678;
+    &:hover {
+        border-color: #5a8678;
+    }
+    margin: 20px auto 0
+`;
+const FormBox = styled(Box) `
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+`;
+const CustomTextField = styled(TextField) `
+    margin: 10px auto;
+`;
+ const AlertCenter = styled(Alert) `
+     justify-content: center;
 `;
 
-
 function AddComment({addComment, setNewComment, newComment}) {
+    const [errorMessage, setErrorMessage] = useState(false)
     const [emailError, setEmailError] = useState('');
     const validateEmail = (event) => {
         const email = event.target.value;
-
         if (validator.isEmail(email)) {
             setEmailError('')
         } else {
-            setEmailError('Enter valid Email!')
+            setEmailError('Неверный формат почты')
         }
     }
     let noEmptyFields =true;
@@ -34,12 +50,16 @@ function AddComment({addComment, setNewComment, newComment}) {
         event.preventDefault();
 
         checkEmptyField();
-        console.log(noEmptyFields)
-        console.log(emailError)
-        noEmptyFields && emailError === '' ? addComment(newComment) : alert('Проверьте поля формы');
 
-        setNewComment({name: '', text: '', url: '', mail: '',});
-        setEmailError('');
+        if (noEmptyFields && emailError === '') {
+            addComment(newComment);
+            setNewComment({name: '', text: '', url: '', mail: '',});
+            setEmailError('');
+        }
+        else {
+            setErrorMessage(true);
+        }
+
     }
 
     function handleChange(event) {
@@ -49,50 +69,60 @@ function AddComment({addComment, setNewComment, newComment}) {
             id: Date.now(),
         });
         if (event.target.name === 'mail') {
-            validateEmail(event)
+            validateEmail(event);
         }
+       setErrorMessage(false);
     }
     return (
-
-            <Box component="form"
+            <FormBox component="form"
                  sx={{
-                     '& > :not(style)': { m: 1, width: '25ch' },
+                     '& .MuiTextField-root': { width: '40ch' },
                  }}
                  noValidate
                  autoComplete="off"
                  onSubmit={submitHandler}>
+                { errorMessage === true &&
+                    <AlertCenter severity="error">Проверьте поля формы</AlertCenter>
+                }
+                <CustomTextField
+                    label="Имя"
+                    variant="standard"
 
-
-                    <TextField error
-                               id="standard-error-helper-text"
-                               label="Имя"
-                               defaultValue="Hello World"
-                               helperText="Incorrect entry."
-                               variant="standard"
-                               name="name"
-                               value={newComment.name}
-                               onChange={handleChange}/>
-                    <TextField
-
-                <label>
-                    Почта
-                    <input name="mail" value={newComment.mail} onChange={handleChange}/>
-                    <span style={{fontWeight: 'bold', color: 'red',}}>{emailError}</span>
-                </label>
-                <label>
-                    Ссылка на фото
-                    <input name="url" value={newComment.url} onChange={handleChange}/>
-                </label>
-                <label>
-                    Комментарий
-                    <textarea name="text" value={newComment.text} onChange={handleChange}/>
-                </label>
-
+                    color="success"
+                    name="name"
+                    value={newComment.name}
+                    onChange={handleChange}
+                />
+                <CustomTextField
+                    error={emailError}
+                    label="Почта"
+                    variant="standard"
+                    color="success"
+                    helperText={emailError}
+                    name="mail"
+                    value={newComment.mail}
+                    onChange={handleChange}
+                />
+                <CustomTextField
+                    label="Ссылка на фото"
+                    variant="standard"
+                    name="url"
+                    color="success"
+                    value={newComment.url}
+                    onChange={handleChange}
+                />
+                <CustomTextField
+                    id="standard-multiline-flexible"
+                    label="Комментарий"
+                    multiline
+                    variant="standard"
+                    name="text"
+                    color="success"
+                    value={newComment.text}
+                    onChange={handleChange}
+                />
                 <CustomizeButton variant="outlined" type="submit">Добавить комментарий</CustomizeButton>
-            </Box>
-
-
-
+            </FormBox>
     );
 };
 

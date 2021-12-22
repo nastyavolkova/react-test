@@ -1,17 +1,14 @@
 import React from 'react'
-import PropTypes from "prop-types";
+import Avatar from '@mui/material/Avatar';
 
-const styles = {
-    img: {
-        width: '100px',
-        height: '100px'
-    }
-}
-function Avatar({url}) {
+
+function Photo({url}) {
     return (
-        <div>
-            <img src={url} alt='Аватар' style={styles.img}/>
-        </div>
+        <Avatar
+            src={url}
+            alt='Аватар'
+            sx= {{ width: 80, height: 80 }}
+        />
     );
 };
-export default Avatar;
+export default Photo;

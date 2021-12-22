@@ -1,32 +1,54 @@
 import React from 'react'
-import PropTypes from 'prop-types';
-import Avatar from './Avatar.js';
-import TextField from "./TextField";
+import Photo from './Avatar.js';
 import Rating from "./Rating";
-import DateField from "./DateField";
+
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import {styled} from "@mui/material/styles";
+import Container from "@mui/material/Container";
+import Typography from '@mui/material/Typography';
+
+const FlexContainer = styled(Container) `
+    display:flex;
+    flex-wrap: wrap;
+`;
+
 
 
 function AttributesList({comments, changeRating}) {
     return (
-        <div>
+        <FlexContainer>
             {comments.map((item) => {
                 return (
-                    <div  key={item.id}>
-                        <Avatar url = {item.url}/>
-                        <TextField content = {item.name} title = 'Имя' />
-                        <TextField content = {item.mail} title = 'Почта' />
-                        <TextField content = {item.text} title = 'Комментарий'/>
-                        <Rating comment = {item} changeRating = {changeRating}/>
-                        <DateField date = {item.date}/>
-                    </div>
+                    <Card sx={{ width: 250, m: 1}}  key={item.id}>
+                        <CardHeader
+                            avatar={
+                                <Photo url = {item.url}/>
+                            }
+                            subheader={item.date}
+                            sx = {{paddingBottom: 0}}
+                        ></CardHeader>
+
+                        <CardContent>
+                            <Typography gutterBottom variant="h5">
+                                {item.name}
+                            </Typography>
+                            <Typography gutterBottom variant="body2" mb={2} >
+                                {item.mail}
+                            </Typography>
+                            <Typography sx={{color: "#5a8678", fontSize: 20}} variant="body2" color="text.secondary">
+                                {item.text}
+                            </Typography>
+
+                            <Rating comment = {item} changeRating = {changeRating}/>
+
+                        </CardContent>
+                    </Card>
                 )
             })}
-        </div>
+        </FlexContainer>
     );
-};
-
-AttributesList.propType = {
-  item: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default AttributesList;

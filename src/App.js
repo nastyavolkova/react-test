@@ -8,9 +8,6 @@ import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
 import CommentIcon from '@mui/icons-material/Comment';
-import Button from "@mui/material/Button";
-
-
 
 const CustomizeAppBar = styled(AppBar) `
     background-color: #5a8678;
@@ -43,13 +40,13 @@ function App() {
         setComments(commentsInfo.concat([{
             id: Date.now(),
             rating: 0,
-            date: "just now",
+            date: new Date().toLocaleString(),
             ...value,
         }]))
     }
 
   return (
-      <Container fixed>
+      <Container fixed sx={{mb: 8}}>
           <CustomizeAppBar position="static">
               <Toolbar>
                   <CommentIcon fontSize="large"/>
